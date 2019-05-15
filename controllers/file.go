@@ -31,7 +31,7 @@ func (u *FileController) Post() {
 	file.Close()
 	fmt.Println("file ext:", ext)
 	fmt.Print(header.Filename)
-	SavePath := beego.AppConfig.String("StroageFilePath")
+	SavePath := beego.AppConfig.String("StorageFilePath")
 	fileFullPath := SavePath + uid + ext
 	fmt.Println("save path:", fileFullPath)
 	u.SaveToFile("file", fileFullPath)

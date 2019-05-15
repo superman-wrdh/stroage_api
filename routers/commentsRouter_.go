@@ -16,6 +16,15 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["stroage_api/controllers:FileController"] = append(beego.GlobalControllerRouter["stroage_api/controllers:FileController"],
+		beego.ControllerComments{
+			Method:           "Get",
+			Router:           `/`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["stroage_api/controllers:ObjectController"] = append(beego.GlobalControllerRouter["stroage_api/controllers:ObjectController"],
 		beego.ControllerComments{
 			Method:           "Post",
