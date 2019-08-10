@@ -20,7 +20,7 @@ func init() {
 		beego.ControllerComments{
 			Method:           "Get",
 			Router:           `/`,
-			AllowHTTPMethods: []string{"get"},
+			AllowHTTPMethods: []string{"GET"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})
@@ -128,6 +128,15 @@ func init() {
 		beego.ControllerComments{
 			Method:           "Logout",
 			Router:           `/logout`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["stroage_api/controllers:WordController"] = append(beego.GlobalControllerRouter["stroage_api/controllers:WordController"],
+		beego.ControllerComments{
+			Method:           "Get",
+			Router:           `/:word`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

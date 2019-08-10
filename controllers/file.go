@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"go-common/app/service/main/member/model"
+	"io/ioutil"
+	"os"
 	"path"
 	"strings"
 )
@@ -36,5 +38,41 @@ func (u *FileController) Post() {
 	fmt.Println("save path:", fileFullPath)
 	u.SaveToFile("file", fileFullPath)
 	u.Data["json"] = map[string]string{"uid": uid}
-	u.ServeJSON()
+	u.Ctx.Output.Body([]byte("hello"))
+	//u.ServeJSON()
 }
+
+// @Title CreateUser
+// @Description create users
+// @Param	body		body 	models.User	true		"body for user content"
+// @Success 200 {int} models.User.Id
+// @Failure 403 body is empty
+// @router / [GET]
+func (u *FileController) Get() {
+	//appPath := beego.AppPath
+	filePath := path.Join("file", "050ffec8689e463fa0741be0656188f7.jpg")
+	fmt.Println(filePath)
+	file, err := os.Open(filePath)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(file.Name())
+	file, _ = os.Open(filePath)
+	u.Ctx.Output.Header("Content-Type", "image/jpg")
+	buffer, _ := ioutil.ReadAll(file)
+	u.Ctx.Output.Body(buffer)
+	//u.Ctx.Output.Download(filePath)
+
+}
+
+/**
+    filePath := path.Join("file", "050ffec8689e463fa0741be0656188f7.jpg")
+	fmt.Println(filePath)
+	file, err := os.Open(filePath)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(file.Name())
+	u.Ctx.Output.Header("Content-Type", "image/jpg")
+	u.Ctx.Output.Download(filePath)
+*/

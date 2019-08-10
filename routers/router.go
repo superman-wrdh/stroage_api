@@ -30,6 +30,11 @@ func init() {
 				&controllers.FileController{},
 			),
 		),
+		beego.NSNamespace("/word/",
+			beego.NSInclude(
+				&controllers.WordController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
