@@ -3,12 +3,14 @@ package controllers
 import (
 	"fmt"
 	"github.com/astaxie/beego"
+	"stroage_api/models"
+	"stroage_api/utils"
+	"time"
+
 	//"go-common/app/service/main/member/model"
 	"io/ioutil"
 	"os"
 	"path"
-	//"strings"
-	"github.com/google/uuid"
 )
 
 // Operations about Users
@@ -23,24 +25,34 @@ type FileController struct {
 // @Failure 403 body is empty
 // @router / [post]
 func (u *FileController) Post() {
-	uuid, _ := uuid.NewUUID()
-	uid := uuid.String()
-	//uid = strings.Replace(uid, "-", "", -1)
+	description := u.GetString("description")
+	uid := utils.GetUUID4()
 	file, header, _ := u.GetFile("file")
 	ContentType := header.Header.Get("Content-Type")
 	FileSize := header.Size
-	fmt.Println("file size : ", FileSize)
-	fmt.Println("content type:", ContentType)
 	ext := path.Ext(header.Filename)
 	file.Close()
-	fmt.Println("file ext:", ext)
-	fmt.Print(header.Filename)
 	SavePath := beego.AppConfig.String("StorageFilePath")
 	fileFullPath := SavePath + uid + ext
-	fmt.Println("save path:", fileFullPath)
 	u.SaveToFile("file", fileFullPath)
+	r := models.Resources{
+		Id:               uid,
+		FileKey:          uid + ext,
+		Type:             "",
+		MimeType:         ContentType,
+		ReferenceId:      "",
+		Name:             uid + ext,
+		OriginalFileName: header.Filename,
+		Description:      description,
+		Extension:        ext,
+		StorageType:      "local",
+		StorageParam:     "",
+		Size:             FileSize,
+		Meta:             "",
+		CreatedTime:      time.Now(),
+	}
+	r.Insert()
 	u.Data["json"] = map[string]string{"uid": uid}
-	//u.Ctx.Output.Body([]byte("hello"))
 	u.ServeJSON()
 }
 

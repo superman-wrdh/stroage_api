@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
 )
@@ -37,7 +38,16 @@ type Resources struct {
 	Extension        string    `orm:"column(extension);size(64)"`
 	StorageType      string    `orm:"column(storage_type);size(54)"`
 	StorageParam     string    `orm:"column(storage_param);size(64)"`
-	Size             int       `orm:"column(size)"`
+	Size             int64     `orm:"column(size)"`
 	Meta             string    `orm:"column(meta);size(32)"`
 	CreatedTime      time.Time `orm:"column(created_time);auto_now_add;type(datetime)"`
+}
+
+func (r *Resources) Insert() (int64, bool) {
+	orm := orm.NewOrm()
+	id, err := orm.Insert(r)
+	if err != nil {
+		return id, false
+	}
+	return id, true
 }
