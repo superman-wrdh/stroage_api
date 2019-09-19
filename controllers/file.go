@@ -26,7 +26,7 @@ type FileController struct {
 // @router / [post]
 func (u *FileController) Post() {
 	description := u.GetString("description")
-	uid := utils.GetUUID4()
+	uid := utils.GetUUID()
 	file, header, _ := u.GetFile("file")
 	ContentType := header.Header.Get("Content-Type")
 	FileSize := header.Size

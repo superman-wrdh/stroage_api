@@ -47,7 +47,7 @@ func (r *Resources) Insert() (int64, bool) {
 	orm := orm.NewOrm()
 	id, err := orm.Insert(r)
 	if err != nil {
-		return id, false
+		return -1, false
 	}
 	return id, true
 }

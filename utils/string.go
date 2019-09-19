@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func GetUUID4() string {
+func GetUUID() string {
 	uuid, _ := uuid.NewUUID()
 	uid := uuid.String()
 	uid = strings.Replace(uid, "-", "", -1)
