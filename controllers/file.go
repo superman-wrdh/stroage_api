@@ -40,8 +40,8 @@ func (u *FileController) Post() {
 	fmt.Println("save path:", fileFullPath)
 	u.SaveToFile("file", fileFullPath)
 	u.Data["json"] = map[string]string{"uid": uid}
-	u.Ctx.Output.Body([]byte("hello"))
-	//u.ServeJSON()
+	//u.Ctx.Output.Body([]byte("hello"))
+	u.ServeJSON()
 }
 
 // @Title CreateUser
