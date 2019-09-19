@@ -37,7 +37,10 @@ func initDb() {
 func createTable() {
 	name := "default"
 	// if true drop table 后再建表
-	force := false
+	force, boolErr := beego.AppConfig.Bool("ForceCreateTable")
+	if boolErr != nil {
+		force = false
+	}
 	// 打印执行过程
 	verbose := true
 	// 遇到错误立即返回
