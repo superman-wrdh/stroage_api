@@ -64,6 +64,7 @@ func createTable() {
 
 }
 
+//新增模型在这里注册
 func registerModel() {
 	orm.RegisterModel(new(Resources))
 }
