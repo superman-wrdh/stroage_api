@@ -17,15 +17,22 @@ func init() {
 }
 
 func initDb() {
+	/**
+	根据运行模式选择对应数据库
+	当运行模式为dev 时候 选项 section为dev下面的配置
+	*/
 	err := orm.RegisterDriver("mysql", orm.DRMySQL)
 	if err != nil {
 		fmt.Print("RegisterDriver Error")
 	}
-	host := beego.AppConfig.String("dev_db::host")
-	user := beego.AppConfig.String("dev_db::user")
-	password := beego.AppConfig.String("dev_db::password")
-	db := beego.AppConfig.String("dev_db::db")
-	port := beego.AppConfig.String("dev_db::port")
+
+	runModel := beego.AppConfig.String("runmode")
+
+	host := beego.AppConfig.String(fmt.Sprintf("%s_db::host", runModel))
+	user := beego.AppConfig.String(fmt.Sprintf("%s_db::user", runModel))
+	password := beego.AppConfig.String(fmt.Sprintf("%s_db::password", runModel))
+	db := beego.AppConfig.String(fmt.Sprintf("%s_db::db", runModel))
+	port := beego.AppConfig.String(fmt.Sprintf("%s_db::port", runModel))
 	DbInfo := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", user, password, host, port, db)
 	RegisterErr := orm.RegisterDataBase("default", "mysql", DbInfo)
 
@@ -44,10 +51,17 @@ func createTable() {
 	// 打印执行过程
 	verbose := true
 	// 遇到错误立即返回
+	runModel := beego.AppConfig.String("runmode")
+
+	//生产环境不能删除表重建
+	if runModel == "prd" || runModel == "product" {
+		force = false
+	}
 	err := orm.RunSyncdb(name, force, verbose)
 	if err != nil {
 		fmt.Println(err)
 	}
+
 }
 
 func registerModel() {
