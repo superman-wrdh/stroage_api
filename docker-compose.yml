@@ -1,0 +1,20 @@
+# https://docs.docker.com/compose/compose-file/compose-file-v2/
+version: '2.1'
+services:
+  mysql:
+    image: docker.io/mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3309:3306"
+    volumes:
+      - "~/mysql_docker_data:/var/lib/mysql"
+  api:
+    build: .
+    ports:
+      - "8081:8080"
+    links:
+      - mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
