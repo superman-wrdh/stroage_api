@@ -19,10 +19,12 @@ type MultiFileController struct {
 
 //保存文件
 func SaveFile(FileFullPath string, file multipart.File) bool {
+	defer file.Close()
 	dst, err := os.Create(FileFullPath)
 	if err != nil {
 		return false
 	}
+	defer dst.Close()
 	if _, err := io.Copy(dst, file); err != nil {
 		return false
 	}
