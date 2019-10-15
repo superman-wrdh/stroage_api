@@ -8,9 +8,9 @@
 package routers
 
 import (
-	"stroage_api/controllers"
-
 	"github.com/astaxie/beego"
+	"stroage_api/controllers"
+	"stroage_api/filters"
 )
 
 func init() {
@@ -25,9 +25,19 @@ func init() {
 				&controllers.UserController{},
 			),
 		),
-		beego.NSNamespace("/upload/",
+		beego.NSNamespace("/file/",
 			beego.NSInclude(
 				&controllers.FileController{},
+			),
+		),
+		beego.NSNamespace("/multiFile/",
+			beego.NSInclude(
+				&controllers.MultiFileController{},
+			),
+		),
+		beego.NSNamespace("/download/",
+			beego.NSInclude(
+				&controllers.DownLoadController{},
 			),
 		),
 		beego.NSNamespace("/word/",
@@ -37,4 +47,6 @@ func init() {
 		),
 	)
 	beego.AddNamespace(ns)
+	//注册所有的过滤器
+	filters.RegisterAllFilter()
 }

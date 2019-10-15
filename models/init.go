@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"os"
 )
 
 // 注册模型 初始化数据库表结构
@@ -27,7 +28,14 @@ func initDb() {
 	}
 
 	runModel := beego.AppConfig.String("runmode")
-
+	//环境变量优先度高于配置文件优先度
+	envRunMode := os.Getenv("runmode")
+	if len(envRunMode) > 0 {
+		runModel = envRunMode
+		fmt.Println("____________________________")
+		fmt.Printf("|**find env  run mode %s |\n", runModel)
+		fmt.Println("----------------------------")
+	}
 	host := beego.AppConfig.String(fmt.Sprintf("%s_db::host", runModel))
 	user := beego.AppConfig.String(fmt.Sprintf("%s_db::user", runModel))
 	password := beego.AppConfig.String(fmt.Sprintf("%s_db::password", runModel))

@@ -5,6 +5,7 @@
     go get github.com/beego/bee
     go get github.com/astaxie/beego/toolbox
     go get github.com/go-sql-driver/mysql
+    github.com/go-redis/redis
 # run
 bee run
 

@@ -51,3 +51,13 @@ func (r *Resources) Insert() (int64, bool) {
 	}
 	return id, true
 }
+
+func (r *Resources) Get(id string) bool {
+	orm := orm.NewOrm()
+	r.Id = id
+	err := orm.Read(r)
+	if err != nil {
+		return false
+	}
+	return true
+}
